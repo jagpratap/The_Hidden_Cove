@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useCabins } from "./useCabins";
 
 import Spinner from "../../ui/Spinner";
-
 import CabinRow from "./CabinRow";
 
 const Table = styled.div`

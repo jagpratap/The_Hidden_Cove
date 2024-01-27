@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { HiTrash } from "react-icons/hi2";
 
 import { formatCurrency } from "../../utils/helpers";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -42,6 +44,8 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
+  const { isDeleting, handleDeleteCabin } = useDeleteCabin();
+
   const {
     id: cabinId,
     name,
@@ -63,7 +67,14 @@ function CabinRow({ cabin }) {
       ) : (
         <span>&mdash;</span>
       )}
-      <div></div>
+      <div>
+        <button
+          onClick={() => handleDeleteCabin(cabinId)}
+          disabled={isDeleting}
+        >
+          <HiTrash />
+        </button>
+      </div>
     </TableRow>
   );
 }
