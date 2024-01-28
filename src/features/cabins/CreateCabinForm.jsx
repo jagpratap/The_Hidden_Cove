@@ -16,11 +16,14 @@ function CreateCabinForm() {
   const { errors } = formState;
 
   function onSubmit(data) {
-    handleCreateCabin(data, {
-      onSuccess: () => {
-        reset();
-      },
-    });
+    handleCreateCabin(
+      { ...data, image: data.image[0] },
+      {
+        onSuccess: () => {
+          reset();
+        },
+      }
+    );
   }
 
   return (
@@ -108,8 +111,15 @@ function CreateCabinForm() {
       </FormRow>
 
       {/* Cabin photo */}
-      <FormRow label="Cabin photo">
-        <FileInput id="image" accept="image/*" />
+      <FormRow label="Cabin photo" error={errors?.name?.message}>
+        <FileInput
+          id="image"
+          accept="image/*"
+          disabled={isCreating}
+          {...register("image", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
