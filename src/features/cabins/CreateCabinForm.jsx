@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import { useCreateCabin } from "./useCreateCabin";
+import { useEditCabin } from "./useEditCabin";
 
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
@@ -9,21 +10,46 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import Button from "../../ui/Button";
 
-function CreateCabinForm() {
-  const { isCreating, handleCreateCabin } = useCreateCabin();
+function CreateCabinForm({ cabinToEdit = {} }) {
+  const isEditSession = Boolean(cabinToEdit?.id);
 
-  const { register, handleSubmit, getValues, reset, formState } = useForm();
-  const { errors } = formState;
+  const { isCreating, handleCreateCabin } = useCreateCabin();
+  const { isEditing, handleEditCabin } = useEditCabin();
+
+  const isWorking = isEditSession ? isEditing : isCreating;
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: isEditSession ? cabinToEdit : {},
+  });
 
   function onSubmit(data) {
-    handleCreateCabin(
-      { ...data, image: data.image[0] },
-      {
-        onSuccess: () => {
-          reset();
-        },
-      }
-    );
+    const image = typeof data.image === "string" ? data.image : data.image[0];
+
+    if (isEditSession) {
+      handleEditCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset();
+          },
+        }
+      );
+    } else {
+      handleCreateCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset();
+          },
+        }
+      );
+    }
   }
 
   return (
@@ -33,7 +59,7 @@ function CreateCabinForm() {
         <Input
           type="text"
           id="name"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("name", {
             required: "This field is required",
           })}
@@ -45,7 +71,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="max_capacity"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("max_capacity", {
             required: "This field is required",
             min: {
@@ -61,7 +87,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regular_price"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("regular_price", {
             required: "This field is required",
             min: {
@@ -78,7 +104,7 @@ function CreateCabinForm() {
           type="number"
           id="discount"
           defaultValue={0}
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("discount", {
             required: "This field is required",
             validate: (value) => {
@@ -103,7 +129,7 @@ function CreateCabinForm() {
           type="number"
           id="description"
           defaultValue=""
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("description", {
             required: "This field is required",
           })}
@@ -111,13 +137,13 @@ function CreateCabinForm() {
       </FormRow>
 
       {/* Cabin photo */}
-      <FormRow label="Cabin photo" error={errors?.name?.message}>
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
         <FileInput
           id="image"
           accept="image/*"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("image", {
-            required: "This field is required",
+            required: isEditSession ? false : "This field is required",
           })}
         />
       </FormRow>
@@ -126,7 +152,9 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>Create new cabin</Button>
+        <Button disabled={isWorking}>
+          {isEditSession ? "Edit Cabin" : "Create new cabin"}
+        </Button>
       </FormRow>
     </Form>
   );
