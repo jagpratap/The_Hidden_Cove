@@ -28,40 +28,35 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin) {
-  const { path, name } = generateImageInfo(newCabin.image.name);
+export async function createEditCabin(cabin) {
+  const imagePathExist = cabin.image?.startsWith?.(supabaseUrl);
+  const { path, name } = generateImageInfo(cabin.image.name);
 
-  const { data, error } = await supabase.from("cabins").insert([{ ...newCabin, image: path }]).select().single();
+  const imagePath = imagePathExist ? cabin.image : path;
+
+  // 1. Create/edit cabin
+  let query = supabase.from("cabins");
+
+  // A) CREATE
+  if (!cabin?.id) query = query.insert([{ ...cabin, image: imagePath }]);
+
+  // B) EDIT
+  if (cabin?.id) {
+    const { id, ...editedValues } = cabin;
+    query = query.update({ ...editedValues, image: imagePath }).eq("id", id);
+  }
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
     throw new Error("Cabin could not be created");
   }
 
-  await uploadImage(newCabin.image, name, data.id);
-
-  return data;
-}
-
-export async function editCabin(editedCabin) {
-  const { id, ...editedValues } = editedCabin;
-
-  const imagePathExist = editedCabin.image?.startsWith?.(supabaseUrl);
-
-  const { path, name } = generateImageInfo(editedCabin.image.name);
-
-  const imagePath = imagePathExist ? editedCabin.image : path;
-
-  const { data, error } = await supabase.from("cabins").update({ ...editedValues, image: imagePath }).eq('id', id).select().single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Cabin could not be edited");
-  }
-
   if (imagePathExist) return data;
 
-  await uploadImage(editedCabin.image, name, data.id);
+  // 2. Upload image
+  await uploadImage(cabin.image, name, data.id);
 
   return data;
 }
