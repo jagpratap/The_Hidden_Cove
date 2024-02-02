@@ -9,6 +9,7 @@ import Modal from "../../ui/Modal";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+
 import CreateCabinForm from "./CreateCabinForm";
 
 const Img = styled.img`
@@ -21,10 +22,10 @@ const Img = styled.img`
 `;
 
 const Cabin = styled.div`
+  font-family: "Sono";
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
-  font-family: "Sono";
 `;
 
 const Price = styled.div`
@@ -74,10 +75,11 @@ function CabinRow({ cabin }) {
       ) : (
         <span>&mdash;</span>
       )}
-      <Menus>
-        <Menus.Menu>
-          <Menus.Toggle id={cabinId} />
-          <Modal>
+      <div>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={cabinId} />
+
             <Menus.List id={cabinId}>
               <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
                 Duplicate
@@ -103,9 +105,9 @@ function CabinRow({ cabin }) {
                 onConfirm={() => handleDeleteCabin(cabinId)}
               />
             </Modal.Window>
-          </Modal>
-        </Menus.Menu>
-      </Menus>
+          </Menus.Menu>
+        </Modal>
+      </div>
     </Table.Row>
   );
 }

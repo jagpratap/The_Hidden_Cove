@@ -8,11 +8,13 @@ const sizes = {
     font-weight: 600;
     text-align: center;
   `,
+
   medium: css`
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;
   `,
+
   large: css`
     font-size: 1.6rem;
     padding: 1.2rem 2.4rem;
@@ -29,6 +31,7 @@ const variations = {
       background-color: var(--color-brand-700);
     }
   `,
+
   secondary: css`
     color: var(--color-grey-600);
     background: var(--color-grey-0);
@@ -38,6 +41,7 @@ const variations = {
       background-color: var(--color-grey-50);
     }
   `,
+
   danger: css`
     color: var(--color-red-100);
     background-color: var(--color-red-700);
