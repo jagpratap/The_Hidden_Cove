@@ -5,6 +5,7 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { STATUS_COLOR_CODE } from "../../utils/constants";
 import { useBooking } from "./useBooking";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 import Row from "../../ui/Row";
 import Tag from "../../ui/Tag";
@@ -14,6 +15,8 @@ import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 import BookingDataBox from "./BookingDataBox";
 
@@ -26,6 +29,7 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { isLoading, booking } = useBooking();
   const { isCheckingOut, handleCheckout } = useCheckout();
+  const { isDeleting, handleDeleteBooking } = useDeleteBooking();
   const navigate = useNavigate();
   const moveBack = useMoveBack();
 
@@ -60,6 +64,23 @@ function BookingDetail() {
             Check out
           </Button>
         )}
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete booking</Button>
+          </Modal.Open>
+
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              disabled={isDeleting}
+              onConfirm={() =>
+                handleDeleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
+              }
+            />
+          </Modal.Window>
+        </Modal>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
