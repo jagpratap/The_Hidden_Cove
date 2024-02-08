@@ -8,7 +8,10 @@ function generateImageInfo(imageName) {
 
 async function uploadImage(image, imageName, id) {
   // 1. Upload image
-  const { error } = await supabase.storage.from('cabin-images').upload(imageName, image);
+  const { error } = await supabase
+    .storage
+    .from('cabin-images')
+    .upload(imageName, image);
 
   // 2. Delete cabin IF there was an error in uploading image
   if (error) {
@@ -18,7 +21,9 @@ async function uploadImage(image, imageName, id) {
 }
 
 export async function getCabins() {
-  const { data, error } = await supabase.from("cabins").select("*");
+  const { data, error } = await supabase
+    .from("cabins")
+    .select("*");
 
   if (error) {
     console.error(error);
@@ -62,7 +67,12 @@ export async function createEditCabin(cabin) {
 }
 
 export async function deleteCabin(id) {
-  const { data, error } = await supabase.from("cabins").delete().eq("id", id).select().single();
+  const { data, error } = await supabase
+    .from("cabins")
+    .delete()
+    .eq("id", id)
+    .select()
+    .single();
 
   if (error) {
     console.error(error);
