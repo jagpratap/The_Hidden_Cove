@@ -12,7 +12,7 @@ function LoginForm() {
   const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("password");
 
-  const { isLogging, handleLogin } = useLogin();
+  const { isLoggingIn, handleLogin } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -39,7 +39,7 @@ function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="username"
-          disabled={isLogging}
+          disabled={isLoggingIn}
         />
       </FormRow>
 
@@ -50,13 +50,13 @@ function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
-          disabled={isLogging}
+          disabled={isLoggingIn}
         />
       </FormRow>
 
       <FormRow orientation="vertical">
-        <Button size="large" disabled={isLogging}>
-          {!isLogging ? "Log in" : <SpinnerMini />}
+        <Button size="large" disabled={isLoggingIn}>
+          {!isLoggingIn ? "Log in" : <SpinnerMini />}
         </Button>
       </FormRow>
     </Form>
