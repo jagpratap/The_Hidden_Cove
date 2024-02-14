@@ -10,6 +10,7 @@ import {
 
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import { STATUS_COLOR_CODE } from "../../utils/constants";
+
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
 
@@ -49,15 +50,13 @@ const Amount = styled.div`
 function BookingRow({ booking }) {
   const navigate = useNavigate();
   const { isCheckingOut, handleCheckout } = useCheckout();
-  const { isDeleting, handleDeleteBooking } = useDeleteBooking();
+  const { isDeletingBooking, handleDeleteBooking } = useDeleteBooking();
 
   const {
     id: bookingId,
-    // created_at,
     start_date,
     end_date,
     num_nights,
-    // num_guests,
     total_price,
     status,
     guests: { full_name: guestName, email },
@@ -130,8 +129,8 @@ function BookingRow({ booking }) {
         <Modal.Window name="delete">
           <ConfirmDelete
             resourceName="booking"
-            disabled={isDeleting}
             onConfirm={() => handleDeleteBooking(bookingId)}
+            disabled={isDeletingBooking}
           />
         </Modal.Window>
       </Modal>

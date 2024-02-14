@@ -13,9 +13,7 @@ export async function getBookings({ filter, sortBy, page }) {
 
   // 2. SORT
   if (sortBy) {
-    query = query.order(sortBy.field, {
-      ascending: sortBy.direction === 'asc',
-    });
+    query = query.order(sortBy.field, { ascending: sortBy.direction === 'asc' });
   }
 
   // 3. PAGINATION
@@ -62,6 +60,7 @@ export async function updateBooking(id, obj) {
     console.error(error);
     throw new Error("Booking could not be updated");
   }
+
   return data;
 }
 
@@ -75,5 +74,6 @@ export async function deleteBooking(id) {
     console.error(error);
     throw new Error("Booking could not be deleted");
   }
+
   return data;
 }

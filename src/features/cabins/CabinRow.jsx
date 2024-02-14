@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 
 import { formatCurrency } from "../../utils/helpers";
+
 import { useDeleteCabin } from "./useDeleteCabin";
 import { useCreateCabin } from "./useCreateCabin";
 
@@ -40,7 +41,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { isDeleting, handleDeleteCabin } = useDeleteCabin();
+  const { isDeletingCabin, handleDeleteCabin } = useDeleteCabin();
   const { handleCreateCabin } = useCreateCabin();
 
   const {
@@ -67,14 +68,19 @@ function CabinRow({ cabin }) {
   return (
     <Table.Row>
       <Img src={image} />
+
       <Cabin>{name}</Cabin>
+
       <div>Fits up to {max_capacity} guests</div>
+
       <Price>{formatCurrency(regular_price)}</Price>
+
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>
       ) : (
         <span>&mdash;</span>
       )}
+
       <Modal>
         <Menus.Menu>
           <Menus.Toggle id={cabinId} />
@@ -100,7 +106,7 @@ function CabinRow({ cabin }) {
           <Modal.Window name="delete">
             <ConfirmDelete
               resourceName="cabins"
-              disabled={isDeleting}
+              disabled={isDeletingCabin}
               onConfirm={() => handleDeleteCabin(cabinId)}
             />
           </Modal.Window>

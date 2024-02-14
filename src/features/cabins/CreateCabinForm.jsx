@@ -13,10 +13,10 @@ import Button from "../../ui/Button";
 function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const isEditSession = Boolean(cabinToEdit?.id);
 
-  const { isCreating, handleCreateCabin } = useCreateCabin();
-  const { isEditing, handleEditCabin } = useEditCabin();
+  const { isCreatingCabin, handleCreateCabin } = useCreateCabin();
+  const { isEditingCabin, handleEditCabin } = useEditCabin();
 
-  const isWorking = isEditSession ? isEditing : isCreating;
+  const isWorking = isEditSession ? isEditingCabin : isCreatingCabin;
 
   const {
     register,

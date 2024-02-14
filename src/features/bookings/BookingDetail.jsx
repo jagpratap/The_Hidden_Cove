@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import { useMoveBack } from "../../hooks/useMoveBack";
 import { STATUS_COLOR_CODE } from "../../utils/constants";
+
+import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
@@ -27,13 +28,14 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { isLoading, booking } = useBooking();
-  const { isCheckingOut, handleCheckout } = useCheckout();
-  const { isDeleting, handleDeleteBooking } = useDeleteBooking();
   const navigate = useNavigate();
   const moveBack = useMoveBack();
+  const { isLoadingBooking, booking } = useBooking();
+  const { isCheckingOut, handleCheckout } = useCheckout();
+  const { isDeletingBooking, handleDeleteBooking } = useDeleteBooking();
 
-  if (isLoading) return <Spinner />;
+  if (isLoadingBooking) return <Spinner />;
+
   if (!booking) return <Empty resourceName="booking" />;
 
   const { status, id: bookingId } = booking;
@@ -45,6 +47,7 @@ function BookingDetail() {
           <Heading>Booking #{bookingId}</Heading>
           <Tag type={STATUS_COLOR_CODE[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
+
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
@@ -56,6 +59,7 @@ function BookingDetail() {
             Check in
           </Button>
         )}
+
         {status === "checked-in" && (
           <Button
             onClick={() => handleCheckout(bookingId)}
@@ -64,6 +68,7 @@ function BookingDetail() {
             Check out
           </Button>
         )}
+
         <Modal>
           <Modal.Open opens="delete">
             <Button variation="danger">Delete booking</Button>
@@ -72,7 +77,7 @@ function BookingDetail() {
           <Modal.Window name="delete">
             <ConfirmDelete
               resourceName="booking"
-              disabled={isDeleting}
+              disabled={isDeletingBooking}
               onConfirm={() =>
                 handleDeleteBooking(bookingId, {
                   onSettled: () => navigate(-1),
@@ -81,6 +86,7 @@ function BookingDetail() {
             />
           </Modal.Window>
         </Modal>
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

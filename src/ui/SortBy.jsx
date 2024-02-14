@@ -12,14 +12,7 @@ function SortBy({ options }) {
     setSearchParams(searchParams);
   }
 
-  return (
-    <Select
-      type="white"
-      options={options}
-      value={sortBy}
-      onChange={handleSort}
-    />
-  );
+  return <Select options={options} value={sortBy} onChange={handleSort} />;
 }
 
 export default SortBy;

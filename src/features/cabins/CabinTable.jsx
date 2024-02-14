@@ -11,9 +11,9 @@ import CabinRow from "./CabinRow";
 
 function CabinTable() {
   const [searchParams] = useSearchParams();
-  const { isLoading, cabins } = useCabins();
+  const { isLoadingCabins, cabins } = useCabins();
 
-  if (isLoading) return <Spinner />;
+  if (isLoadingCabins) return <Spinner />;
   if (!cabins.length) return <Empty resourceName="cabins" />;
 
   // 1) FILTER

@@ -21,14 +21,12 @@ export function useBookings() {
   const page = Number(searchParams.get("page") || 1);
 
   // QUERY
-  const {
-    isLoading,
-    data: { data: bookings, count } = {},
-    error
-  } = useQuery({
+  const { isLoading: isLoadingBookings, data, error } = useQuery({
     queryKey: ['bookings', filter, sortBy, page],
     queryFn: () => getBookings({ filter, sortBy, page })
   });
+
+  const { data: bookings, count } = data || {};
 
   // 4. PRE-FETCHING
   const pageCount = Math.ceil(count / PAGE_SIZE);
@@ -47,5 +45,5 @@ export function useBookings() {
     });
   }
 
-  return { isLoading, bookings, error, count };
+  return { isLoadingBookings, bookings, error, count };
 }
