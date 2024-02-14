@@ -1,30 +1,42 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledFormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
+  ${(props) =>
+    props.orientation === "vertical" &&
+    css`
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    `}
+
+  ${(props) =>
+    props.orientation !== "vertical" &&
+    css`
+      display: grid;
+      align-items: center;
+      grid-template-columns: 24rem 1fr 1.2fr;
+      gap: 2.4rem;
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--color-grey-100);
+      }
+
+      &:has(button) {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1.2rem;
+      }
+    `}
 
   padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
 `;
 
 const Label = styled.label`
@@ -36,9 +48,9 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow({ label, error, children }) {
+function FormRow({ label, error, children, orientation }) {
   return (
-    <StyledFormRow>
+    <StyledFormRow orientation={orientation}>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}
