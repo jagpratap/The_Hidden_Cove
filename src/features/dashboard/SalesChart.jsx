@@ -1,5 +1,3 @@
-import styled from "styled-components";
-import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import {
   Area,
   AreaChart,
@@ -9,6 +7,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import styled from "styled-components";
+import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 import { useDarkModeContext } from "../../context/DarkModeContext";
 
