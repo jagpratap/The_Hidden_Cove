@@ -9,9 +9,9 @@ import Menus from "../../ui/Menus";
 import BookingRow from "./BookingRow";
 
 function BookingTable() {
-  const { isLoadingBookings, bookings, count } = useBookings();
+  const { isGettingBookings, bookings, count } = useBookings();
 
-  if (isLoadingBookings) return <Spinner />;
+  if (isGettingBookings) return <Spinner />;
   if (!bookings.length) return <Empty resourceName="bookings" />;
 
   return (

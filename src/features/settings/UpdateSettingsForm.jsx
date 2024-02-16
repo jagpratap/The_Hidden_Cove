@@ -7,7 +7,7 @@ import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
 
 function UpdateSettingsForm() {
-  const { isLoadingSettings, settings } = useSettings();
+  const { isGettingSettings, settings } = useSettings();
   const { isUpdatingSettings, handleUpdateSetting } = useUpdateSetting();
 
   const {
@@ -25,7 +25,7 @@ function UpdateSettingsForm() {
     handleUpdateSetting({ [field]: value });
   }
 
-  if (isLoadingSettings) return <Spinner />;
+  if (isGettingSettings) return <Spinner />;
 
   return (
     <Form>

@@ -1,5 +1,6 @@
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
+import { getToday } from "../utils/helpers";
 
 export async function getBookings({ filter, sortBy, page }) {
   let query = supabase
@@ -43,6 +44,38 @@ export async function getBooking(id) {
   if (error) {
     console.error(error);
     throw new Error("Booking not found");
+  }
+
+  return data;
+}
+
+// Returns all BOOKINGS that are were created after the given date.
+export async function getBookingsAfterDate(date) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("created_at, total_price, extra_price")
+    .gte("created_at", date)
+    .lte("created_at", getToday({ end: true }));
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  return data;
+}
+
+// Returns all STAYS that are were created after the given date.
+export async function getStaysAfterDate(date) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, guests(full_name)")
+    .gte("start_date", date)
+    .lte("start_date", getToday());
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
   }
 
   return data;

@@ -30,15 +30,15 @@ function CheckinBooking() {
   const [addBreakfast, setAddBreakfast] = useState(false);
 
   const moveBack = useMoveBack();
-  const { isLoadingBooking, booking } = useBooking();
-  const { isLoadingSettings, settings } = useSettings();
+  const { isGettingBooking, booking } = useBooking();
+  const { isGettingSettings, settings } = useSettings();
   const { isCheckingIn, handleCheckin } = useCheckin();
 
   useEffect(() => {
     setConfirmPaid(booking?.is_paid ?? false);
   }, [booking]);
 
-  if (isLoadingBooking || isLoadingSettings) return <Spinner />;
+  if (isGettingBooking || isGettingSettings) return <Spinner />;
 
   const {
     id: bookingId,
