@@ -8,7 +8,7 @@ I believe the best approach to learning something new is <strong>"Learning by Do
 
 ## Deployed Version 🚀
 
-Live demo 👉🏻 :
+Live demo 👉🏻 : https://thehiddencove.netlify.app/
 
 ## 🎮 Account
 
