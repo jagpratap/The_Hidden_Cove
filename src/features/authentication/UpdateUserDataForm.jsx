@@ -26,15 +26,17 @@ function UpdateUserDataForm() {
 
     if (!fullName) return;
 
-    handleUpdateUser(
-      { full_name: fullName, avatar },
-      {
-        onSuccess: () => {
-          setAvatar(null);
-          e.target.reset();
-        },
-      }
-    );
+    console.log(fullName, avatar);
+
+    // handleUpdateUser(
+    //   { full_name: fullName, avatar },
+    //   {
+    //     onSuccess: () => {
+    //       setAvatar(null);
+    //       e.target.reset();
+    //     },
+    //   }
+    // );
   }
 
   function handleCancel() {

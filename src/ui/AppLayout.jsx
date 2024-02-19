@@ -4,6 +4,20 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
+const StyledNotification = styled.div`
+  background-color: var(--color-yellow-100);
+  padding: 1.2rem 2.4rem;
+  border-bottom: 1px solid var(--color-grey-100);
+  font-size: 1.6rem;
+  font-weight: 500;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 1.2rem;
+`;
+
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
@@ -27,15 +41,24 @@ const Container = styled.div`
 
 function AppLayout() {
   return (
-    <StyledAppLayout>
-      <Header />
-      <Sidebar />
-      <Main>
-        <Container>
-          <Outlet />
-        </Container>
-      </Main>
-    </StyledAppLayout>
+    <>
+      <StyledNotification>
+        <span>👋</span>
+        <span>
+          Data mutations (create, update, delete) are deactivated in this demo
+          app.
+        </span>
+      </StyledNotification>
+      <StyledAppLayout>
+        <Header />
+        <Sidebar />
+        <Main>
+          <Container>
+            <Outlet />
+          </Container>
+        </Main>
+      </StyledAppLayout>
+    </>
   );
 }
 

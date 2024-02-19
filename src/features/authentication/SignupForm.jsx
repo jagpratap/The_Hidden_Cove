@@ -18,12 +18,13 @@ function SignupForm() {
   } = useForm();
 
   function onSubmit({ full_name, email, password }) {
-    handleSignup(
-      { full_name, email, password },
-      {
-        onSettled: () => reset(),
-      }
-    );
+    console.log(full_name, email, password);
+    // handleSignup(
+    //   { full_name, email, password },
+    //   {
+    //     onSettled: () => reset(),
+    //   }
+    // );
   }
 
   return (
